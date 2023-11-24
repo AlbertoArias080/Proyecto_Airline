@@ -10,9 +10,9 @@ const tiqueteSchema = mongoose.Schema({
     ref:'Pasajero',
     required: true,
   },
-  numReserva: {
-    type: String,
-    required: true,
+  fechaReserva: {
+    type: Date,
+    requiered: true,
   }
 });
 module.exports = mongoose.model("Tiquete", tiqueteSchema);

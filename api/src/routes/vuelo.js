@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router(); //manejador de rutas de express
 const vueloSchema = require("../models/vuelo"); //Nuevo vuelo
+const pasajeroSchema = require("../models/pasajero");
+const tiqueteSchema = require("../models/tiquete");
 const verifyToken = require("./validate_token");
 const { verify } = require("jsonwebtoken");
 
 //endpoint para Nuevo vuelo
-router.post("/vuelo", verifyToken, (req, res) => {
+router.post("/vuelo", (req, res) => {
+  const { idVuelo, pasaporte, documento, nombre, fechaNac } = req.body;
   const vuelo = vueloSchema({
     numVuelo: req.body.usuario,
     origen: req.body.correo,
@@ -15,9 +18,25 @@ router.post("/vuelo", verifyToken, (req, res) => {
     valor: req.body.valor
   });
 
-  vuelo
-    .save()
-    .then((data) => res.json(data))
+  const pasajero=pasajeroSchema({
+    pasaporte: pasaporte,
+    documento: documento,
+    nombre: nombre,
+    fechaNac: fechaNac
+  })
+
+  pasajero
+  .save()
+    .then((data) => {
+      const tiquete=tiqueteSchema({
+        numVuelo: idVuelo,
+        pasajero: data._id,
+        fechaReserva: new Date()
+      })
+      tiquete.save()
+      .then((data) => res.json(data))
+    .catch((error) => res.json({ message: error }));
+    })
     .catch((error) => res.json({ message: error }));
 });
 

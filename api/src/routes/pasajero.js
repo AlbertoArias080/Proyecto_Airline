@@ -48,12 +48,12 @@ router.get("/pasajero/:id", verifyToken, (req, res) => {
 //endpoint para Modificar un animal usando el id
 router.put("/pasajero/:id", verifyToken, (req, res) => {
   const { id } = req.params;
-  const { pasaporte, documento, nombre, fechaNac, reserva } = req.body;
+  const { pasaporte, documento, nombre, fechaNac } = req.body;
   pasajeroSchema
     .updateOne(
       { _id: id },
       {
-        $set: { pasaporte, documento, nombre, fechaNac, reserva },
+        $set: { pasaporte, documento, nombre, fechaNac },
       }
     )
     .then((data) => {

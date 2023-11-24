@@ -46,12 +46,12 @@ router.get("/tiquete/:id", verifyToken, (req, res) => {
 //endpoint para Modificar un animal usando el id
 router.put("/tiquete/:id", verifyToken, (req, res) => {
   const { id } = req.params;
-  const { numVuelo, pasajero, numReserva } = req.body;
+  const { numVuelo, pasajero, fechaReserva } = req.body;
   tiqueteSchema
     .updateOne(
       { _id: id },
       {
-        $set: { numVuelo, pasajero, numReserva },
+        $set: { numVuelo, pasajero, fechaReserva },
       }
     )
     .then((data) => {

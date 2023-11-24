@@ -15,10 +15,6 @@ const pasajeroSchema = mongoose.Schema({
   fechaNac: {
     type: Date,
     requiered: true,
-  },
-  reserva: {
-    type: Date,
-    requiered: true,
   }
 });
 module.exports = mongoose.model("Pasajero", pasajeroSchema);
